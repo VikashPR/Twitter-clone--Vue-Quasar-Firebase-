@@ -1,0 +1,63 @@
+<template>
+  <q-layout view="lHr lpR fFf">
+    <q-header bordered class="bg-white text-black">
+      <q-toolbar>
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-toolbar-title class="text-weight-bold">
+          Tweetkar
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer :width="283" show-if-above v-model="leftDrawerOpen" side="left" bordered>
+       <q-icon name="fas fa-poo-storm" class='q-pa-md' size="5rem" color="primary"/>
+       <q-list>
+      <q-item clickable v-ripple to='/'>
+        <q-item-section avatar>
+          <q-icon   name="home" size="md" />
+        </q-item-section>
+        <q-item-section class='text-h5'>Home</q-item-section>
+      </q-item>
+      <!-- about -->
+      <q-item clickable v-ripple to='/about'>
+        <q-item-section avatar>
+          <q-icon   name="live_help" size="md" />
+        </q-item-section>
+        <q-item-section class='text-h5'>About</q-item-section>
+      </q-item>
+    </q-list>
+    </q-drawer>
+
+    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
+      <!-- drawer content -->
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
+  </q-layout>
+</template>
+
+<script>
+import { ref } from 'vue'
+
+export default {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const rightDrawerOpen = ref(false)
+
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer () {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      },
+
+      rightDrawerOpen,
+      toggleRightDrawer () {
+        rightDrawerOpen.value = !rightDrawerOpen.value
+      }
+    }
+  }
+}
+</script>
