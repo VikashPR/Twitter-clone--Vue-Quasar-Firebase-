@@ -4,22 +4,24 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
         <q-toolbar-title class="text-weight-bold">
-          Tweetkar
+          <span class="gt-sm">{{$route.name}}</span>
+          <q-icon name="fas fa-poo-storm" class='q-pa-md lt-md header-icon' size="2.6rem" color="primary" />
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-drawer :width="283" show-if-above v-model="leftDrawerOpen" side="left" bordered>
       <q-icon name="fas fa-poo-storm" class='q-pa-md' size="5rem" color="primary" />
+      <!-- Home -->
       <q-list>
-        <q-item clickable v-ripple to='/'>
+        <q-item exact clickable  to='/'>
           <q-item-section avatar>
             <q-icon name="home" size="md" />
           </q-item-section>
           <q-item-section class='text-h5'>Home</q-item-section>
         </q-item>
         <!-- about -->
-        <q-item clickable v-ripple to='/about'>
+        <q-item exact clickable  to='/about'>
           <q-item-section avatar>
             <q-icon name="live_help" size="md" />
           </q-item-section>
@@ -116,3 +118,12 @@
   }
 
 </script>
+
+<style  lang="scss">
+.header-icon{
+  position:absolute;
+  bottom: 0;
+  left: 50%;
+  transform:translateX(-50%);
+}
+</style>
