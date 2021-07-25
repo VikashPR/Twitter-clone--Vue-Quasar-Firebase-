@@ -3,8 +3,8 @@
     <!-- NOTE tweet Form  -->
     <div class="q-py-lg q-px-lg row items-end q-col-gutter-lg">
       <div class="col">
-        <q-input class="newTweet" autogrow bottom-slots v-model="newTweetContent" placeholder="What's up for today ?!" counter
-          maxlength="250">
+        <q-input class="newTweet" autogrow bottom-slots v-model="newTweetContent" placeholder="What's up for today ?!"
+          counter maxlength="250">
           <template v-slot:before>
             <q-avatar size='xl'>
               <img src="https://data.whicdn.com/images/344552644/original.jpg">
@@ -13,7 +13,8 @@
         </q-input>
       </div>
       <div class="col col-shrink">
-        <q-btn @click="addNewTweet" class='q-mb-lg' :disable='!newTweetContent' push unelevated rounded color="primary" no-caps label="Tweet" />
+        <q-btn @click="addNewTweet" class='q-mb-lg' :disable='!newTweetContent' push unelevated rounded color="primary"
+          no-caps label="Tweet" />
       </div>
     </div>
 
@@ -23,34 +24,36 @@
 
     <!-- NOTE Tweet list -->
     <q-list separator>
-      <q-item class='q-py-lg' :key="tweet.date" v-for="tweet in tweets">
 
-        <q-item-section top avatar>
-          <q-avatar size='xl'>
-            <img src="https://data.whicdn.com/images/344552644/original.jpg">
-          </q-avatar>
-        </q-item-section>
+      <transition-group appear enter-active-class="animated fadeInDown slow" leave-active-class="animated fadeOutUp slow">
+        <q-item class='q-py-lg' :key="tweet.date" v-for="tweet in tweets">
 
-        <q-item-section>
-          <q-item-label class='text-h6'><strong>Taylor swift</strong> <span class="text-grey-7">@vikash2806</span>
-          </q-item-label>
-          <q-item-label class='tweet-content'>
-            <span class="text-weight-bold">Janet</span>
-            {{tweet.content}}
-          </q-item-label>
-          <div class="row justify-between q-mt-sm tweet-icon">
-            <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
-            <q-btn flat round color="grey" size="md" icon="fas fa-retweet" />
-            <q-btn flat round color="grey" size="md" icon="far fa-heart" />
-            <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
-          </div>
-        </q-item-section>
+          <q-item-section top avatar>
+            <q-avatar size='xl'>
+              <img src="https://data.whicdn.com/images/344552644/original.jpg">
+            </q-avatar>
+          </q-item-section>
 
-        <q-item-section side top>
-          {{tweet.date}}
-        </q-item-section>
-      </q-item>
+          <q-item-section>
+            <q-item-label class='text-h6'><strong>Taylor swift</strong> <span class="text-grey-7">@vikash2806</span>
+            </q-item-label>
+            <q-item-label class='tweet-content'>
+              <span class="text-weight-bold">Janet</span>
+              {{tweet.content}}
+            </q-item-label>
+            <div class="row justify-between q-mt-sm tweet-icon">
+              <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
+              <q-btn flat round color="grey" size="md" icon="fas fa-retweet" />
+              <q-btn flat round color="grey" size="md" icon="far fa-heart" />
+              <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
+            </div>
+          </q-item-section>
 
+          <q-item-section side top>
+            {{tweet.date}}
+          </q-item-section>
+        </q-item>
+      </transition-group>
     </q-list>
   </q-page>
 </template>
@@ -59,7 +62,7 @@
   import {
     defineComponent
   } from 'vue';
-  
+
 
   export default defineComponent({
     name: 'PageHome',
@@ -77,20 +80,20 @@
         ],
       }
     },
-    methods:{
-      addNewTweet(){
+    methods: {
+      addNewTweet() {
         let newTweet = {
-          content:this.newTweetContent,
+          content: this.newTweetContent,
           date: Date.now(),
         }
         this.tweets.unshift(newTweet);
-        this.newTweetContent =''
+        this.newTweetContent = ''
       },
-      deleteTweet(tweet){
+      deleteTweet(tweet) {
         let dateToDelete = tweet.date;
         let index = this.tweets.findIndex(tweet => tweet.date === dateToDelete);
-        console.log("index",index);
-        this.tweets.splice(index,1);
+        console.log("index", index);
+        this.tweets.splice(index, 1);
       }
     }
   })
