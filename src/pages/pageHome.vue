@@ -42,7 +42,7 @@
             <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
             <q-btn flat round color="grey" size="md" icon="fas fa-retweet" />
             <q-btn flat round color="grey" size="md" icon="far fa-heart" />
-            <q-btn flat round color="grey" size="md" icon="fas fa-trash" />
+            <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
           </div>
         </q-item-section>
 
@@ -67,11 +67,11 @@
       return {
         newTweetContent: '',
         tweets: [{
-            content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
+            content: "A for apple ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
             date: 1627204391216,
           },
           {
-            content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
+            content: "B for ball ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
             date: 1627204419557
           }
         ],
@@ -85,6 +85,12 @@
         }
         this.tweets.unshift(newTweet);
         this.newTweetContent =''
+      },
+      deleteTweet(tweet){
+        let dateToDelete = tweet.date;
+        let index = this.tweets.findIndex(tweet => tweet.date === dateToDelete);
+        console.log("index",index);
+        this.tweets.splice(index,1);
       }
     }
   })
