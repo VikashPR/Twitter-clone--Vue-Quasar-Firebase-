@@ -1,23 +1,23 @@
 <template>
-  <q-page>
-    <!-- NOTE tweet Form  -->
-    <div class="q-py-lg q-px-lg row items-end q-col-gutter-lg">
-      <div class="col">
-        <q-input class="newTweet" autogrow bottom-slots v-model="newTweetContent" placeholder="What's up for today ?!"
-          counter maxlength="250">
-          <template v-slot:before>
-            <q-avatar size='xl'>
-              <img src="https://data.whicdn.com/images/344552644/original.jpg">
-            </q-avatar>
-          </template>
-        </q-input>
+  <q-page class='relative-position'>
+    <q-scroll-area class="absolute full-height full-width">
+      <!-- NOTE tweet Form  -->
+      <div class="q-py-lg q-px-lg row items-end q-col-gutter-lg">
+        <div class="col">
+          <q-input class="newTweet" autogrow bottom-slots v-model="newTweetContent" placeholder="What u got today?!"
+            counter maxlength="250">
+            <template v-slot:before>
+              <q-avatar size='xl'>
+                <img src="https://data.whicdn.com/images/344552644/original.jpg">
+              </q-avatar>
+            </template>
+          </q-input>
+        </div>
+        <div class="col col-shrink">
+          <q-btn @click="addNewTweet" class='q-mb-lg' :disable='!newTweetContent' push unelevated rounded
+            color="primary" no-caps label="Tweet" />
+        </div>
       </div>
-      <div class="col col-shrink">
-        <q-btn @click="addNewTweet" class='q-mb-lg' :disable='!newTweetContent' push unelevated rounded color="primary"
-          no-caps label="Tweet" />
-      </div>
-    </div>
-
 
     <q-separator class='divider' size='10px' color="grey-2" />
 
@@ -25,7 +25,8 @@
     <!-- NOTE Tweet list -->
     <q-list separator>
 
-      <transition-group appear enter-active-class="animated fadeInDown slow" leave-active-class="animated fadeOutUp slow">
+      <transition-group appear enter-active-class="animated fadeInDown slow"
+        leave-active-class="animated fadeOutUp slow">
         <q-item class='q-py-lg' :key="tweet.date" v-for="tweet in tweets">
 
           <q-item-section top avatar>
@@ -35,7 +36,8 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label class='text-h6'><strong>Taylor swift</strong> <span class="text-grey-7">@vikash2806</span>
+            <q-item-label class='text-h6'><strong>Taylor swift</strong>
+              <span class="text-grey-7">@vikash2806 <br class="lt-md">&bull;{{tweet.date}}</span>
             </q-item-label>
             <q-item-label class='tweet-content'>
               <span class="text-weight-bold">Janet</span>
@@ -48,14 +50,12 @@
               <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
             </div>
           </q-item-section>
-
-          <q-item-section side top>
-            {{tweet.date}}
-          </q-item-section>
         </q-item>
       </transition-group>
     </q-list>
+    </q-scroll-area>
   </q-page>
+
 </template>
 
 <script>
