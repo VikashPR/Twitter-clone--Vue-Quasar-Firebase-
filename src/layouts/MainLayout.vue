@@ -14,14 +14,14 @@
       <q-icon name="fas fa-poo-storm" class='q-pa-md' size="5rem" color="primary" />
       <!-- Home -->
       <q-list>
-        <q-item exact clickable  to='/'>
+        <q-item exact clickable to='/'>
           <q-item-section avatar>
             <q-icon name="home" size="md" />
           </q-item-section>
           <q-item-section class='text-h5'>Home</q-item-section>
         </q-item>
         <!-- about -->
-        <q-item exact clickable  to='/about'>
+        <q-item exact clickable to='/about'>
           <q-item-section avatar>
             <q-icon name="live_help" size="md" />
           </q-item-section>
@@ -40,49 +40,33 @@
       <!-- Feeds -->
       <q-list bordered class="rounded-borders" style="max-width: 350px">
         <q-item-label header class='text-h5 text-weight-bold'>Feeds</q-item-label>
-        <q-item-label header class='text-grey'>Following</q-item-label>
-        <q-item class='q-pa-md' clickable v-ripple >
-          <q-item-section avatar>
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-            </q-avatar>
-          </q-item-section>
+        <q-item-label header class='text-grey'>Trending</q-item-label>
 
+        <q-item>
           <q-item-section>
-            <q-item-label lines="1">Brunch this weekend?</q-item-label>
-            <q-item-label caption lines="2">
-              <span class="text-weight-bold">Janet</span>
-              -- I'll be in your neighborhood doing errands this
-              weekend. Do you want to grab brunch?
+            <q-item-label>Single line item</q-item-label>
+            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
             </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            1 min ago
+            <q-badge color="teal" label="10k" />
           </q-item-section>
         </q-item>
 
         <q-separator inset="item" />
-
-        <q-item class='q-pa-md' clickable v-ripple>
-          <q-item-section avatar>
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
-            </q-avatar>
-          </q-item-section>
-
+        <q-item>
           <q-item-section>
-            <q-item-label lines="1">Linear Project</q-item-label>
-            <q-item-label caption lines="2">
-              <span class="text-weight-bold">John</span>
-              -- Can we schedule a call for tomorrow?
+            <q-item-label>Single line item</q-item-label>
+            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
             </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            14 min ago
+            <q-badge color="teal" label="10k" />
           </q-item-section>
         </q-item>
+
       </q-list>
     </q-drawer>
 
@@ -119,11 +103,12 @@
 
 </script>
 
-<style  lang="scss">
-.header-icon{
-  position:absolute;
-  bottom: 0;
-  left: 50%;
-  transform:translateX(-50%);
-}
+<style lang="scss">
+  .header-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
 </style>
