@@ -1,8 +1,9 @@
 <template>
   <q-page>
+    <!-- NOTE tweet Form  -->
     <div class="q-py-lg q-px-lg row items-end q-col-gutter-lg">
       <div class="col">
-        <q-input class="newTweet" autogrow bottom-slots v-model="newTweet" placeholder="What's up for today ?!" counter
+        <q-input class="newTweet" autogrow bottom-slots v-model="newTweetContent" placeholder="What's up for today ?!" counter
           maxlength="250">
           <template v-slot:before>
             <q-avatar size='xl'>
@@ -12,15 +13,18 @@
         </q-input>
       </div>
       <div class="col col-shrink">
-        <q-btn class='q-mb-lg' :disable='!newTweet' push unelevated rounded color="primary" no-caps label="Tweet" />
+        <q-btn @click="addNewTweet" class='q-mb-lg' :disable='!newTweetContent' push unelevated rounded color="primary" no-caps label="Tweet" />
       </div>
     </div>
+
+
     <q-separator class='divider' size='10px' color="grey-2" />
 
 
+    <!-- NOTE Tweet list -->
+    <q-list separator>
+      <q-item class='q-py-lg' :key="tweet.date" v-for="tweet in tweets">
 
-    <q-list>
-      <q-item class='q-py-lg'>
         <q-item-section top avatar>
           <q-avatar size='xl'>
             <img src="https://data.whicdn.com/images/344552644/original.jpg">
@@ -32,14 +36,7 @@
           </q-item-label>
           <q-item-label class='tweet-content'>
             <span class="text-weight-bold">Janet</span>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequi
-            eligendi.
-            
-            officia nisi tempore pariatur maxime, corporis ducimus. Alias ullam nobis aliquam reiciendis
-            repellat doloribus quae atque quasi, vitae excepturi dolore exercitationem ipsum distinctio odio obcaecati
-            inventore eveniet id consectetur. Voluptate labore esse sit? Inventore.
-            Id, modi! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, error.
+            {{tweet.content}}
           </q-item-label>
           <div class="row justify-between q-mt-sm tweet-icon">
             <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
@@ -50,7 +47,7 @@
         </q-item-section>
 
         <q-item-section side top>
-          1 min ago
+          {{tweet.date}}
         </q-item-section>
       </q-item>
 
@@ -62,12 +59,32 @@
   import {
     defineComponent
   } from 'vue';
+  
 
   export default defineComponent({
     name: 'PageHome',
     data() {
       return {
-        newTweet: '',
+        newTweetContent: '',
+        tweets: [{
+            content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
+            date: 1627204391216,
+          },
+          {
+            content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
+            date: 1627204419557
+          }
+        ],
+      }
+    },
+    methods:{
+      addNewTweet(){
+        let newTweet = {
+          content:this.newTweetContent,
+          date: Date.now(),
+        }
+        this.tweets.unshift(newTweet);
+        this.newTweetContent =''
       }
     }
   })
@@ -75,8 +92,8 @@
 </script>
 
 <style scoped lang="scss">
-.newTweet{
-    line-height:1.4 !important;
+  .newTweet {
+    line-height: 1.4 !important;
     font-size: 19px;
   }
 
@@ -88,7 +105,7 @@
 
   .tweet-content {
     font-size: 16px;
-    line-height:1.4 !important;
+    line-height: 1.4 !important;
   }
 
   .tweet-icon {
