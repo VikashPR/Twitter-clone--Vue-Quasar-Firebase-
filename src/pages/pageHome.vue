@@ -25,8 +25,8 @@
       <!-- NOTE Tweet list -->
       <q-list separator>
 
-        <transition-group appear enter-active-class="animated fadeInDown slow"
-          leave-active-class="animated fadeOutUp slow">
+        <transition-group appear enter-active-class="animated fadeIn slow"
+          leave-active-class="animated fadeOut slow">
           <q-item class='q-py-lg' :key="tweet.id" v-for="tweet in tweets">
 
             <q-item-section top avatar>
