@@ -72,16 +72,7 @@
     data() {
       return {
         newTweetContent: '',
-        tweets: [
-          // {
-          //   content: "A for apple ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
-          //   date: 1627204391216,
-          // },
-          // {
-          //   content: "B for ball ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
-          //   date: 1627204419557
-          // }
-        ],
+        tweets: [],
       }
     },
     methods: {
@@ -101,10 +92,11 @@
         this.newTweetContent = ''
       },
       deleteTweet(tweet) {
-        let dateToDelete = tweet.date;
-        let index = this.tweets.findIndex(tweet => tweet.date === dateToDelete);
-        console.log("index", index);
-        this.tweets.splice(index, 1);
+        db.collection("tweet").doc(tweet.id).delete().then(() => {
+          console.log("Document successfully deleted!");
+        }).catch((error) => {
+          console.error("Error removing document: ", error);
+        });
       }
     },
     mounted() {
@@ -121,10 +113,9 @@
           }
           if (change.type === "removed") {
             console.log("Removed tweet: ", tweeetChange);
-            let index = this.tweets.findIndex(tweet =>{
-              tweet.id === tweeetChange.id
-            })
-              this.tweets.splice(index, 1);
+            let index = this.tweets.findIndex(tweet => tweet.id === tweeetChange.id);
+            console.log("index", index);
+            this.tweets.splice(index, 1);
           }
         });
       });
