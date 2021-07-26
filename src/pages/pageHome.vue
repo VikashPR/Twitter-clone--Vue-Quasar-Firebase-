@@ -46,7 +46,8 @@
               <div class="row justify-between q-mt-sm tweet-icon">
                 <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
                 <q-btn flat round color="grey" size="md" icon="fas fa-retweet" />
-                <q-btn flat round color="grey" size="md" icon="far fa-heart" />
+                <q-btn flat round @click="toggleLike(tweet)" :color="tweet.liked ? 'pink':'grey'" size="md"
+                  :icon="tweet.liked ?'fas fa-heart' : 'far fa-heart'" />
                 <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
               </div>
             </q-item-section>
@@ -72,7 +73,26 @@
     data() {
       return {
         newTweetContent: '',
-        tweets: [],
+        tweets: [
+          // {
+          //   id: 'GumuruTapparu',
+          //   content: "lrem is a ipsum du ispsun so loremm",
+          //   date:1627292476604,
+          //   liked: true,
+          // },
+          // {
+          //   id: 'GumuruTapparu2',
+          //   content: "lrem is a ipsum du ispsun so loremm",
+          //   date:1627292476404,
+          //   liked: false,
+          // },
+          // {
+          //   id: 'GumuruTapparu3',
+          //   content: "lrem is a ipsum du ispsun so loremm",
+          //   date:1627292476104,
+          //   liked: false,
+          // },
+        ],
       }
     },
     methods: {
@@ -80,6 +100,7 @@
         let newTweet = {
           content: this.newTweetContent,
           date: Date.now(),
+          liked: false,
         }
         // Add a new document with a generated id.
         db.collection("tweet").add(newTweet).then((docRef) => {
@@ -97,6 +118,19 @@
         }).catch((error) => {
           console.error("Error removing document: ", error);
         });
+      },
+      toggleLike(tweet) {
+        // Set the "capital" field of the city 'DC'
+        return db.collection("tweet").doc(tweet.id).update({
+            liked: !tweet.liked,
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          })
+          .catch((error) => {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
       }
     },
     mounted() {
@@ -109,6 +143,8 @@
           }
           if (change.type === "modified") {
             console.log("Modified tweet: ", tweeetChange);
+            let index = this.tweets.findIndex(tweet => tweet.id === tweeetChange.id);
+            Object.assign(this.tweets[index], tweeetChange);
 
           }
           if (change.type === "removed") {
