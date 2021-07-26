@@ -19,40 +19,40 @@
         </div>
       </div>
 
-    <q-separator class='divider' size='10px' color="grey-2" />
+      <q-separator class='divider' size='10px' color="grey-2" />
 
 
-    <!-- NOTE Tweet list -->
-    <q-list separator>
+      <!-- NOTE Tweet list -->
+      <q-list separator>
 
-      <transition-group appear enter-active-class="animated fadeInDown slow"
-        leave-active-class="animated fadeOutUp slow">
-        <q-item class='q-py-lg' :key="tweet.date" v-for="tweet in tweets">
+        <transition-group appear enter-active-class="animated fadeInDown slow"
+          leave-active-class="animated fadeOutUp slow">
+          <q-item class='q-py-lg' :key="tweet.id" v-for="tweet in tweets">
 
-          <q-item-section top avatar>
-            <q-avatar size='xl'>
-              <img src="https://data.whicdn.com/images/344552644/original.jpg">
-            </q-avatar>
-          </q-item-section>
+            <q-item-section top avatar>
+              <q-avatar size='xl'>
+                <img src="https://data.whicdn.com/images/344552644/original.jpg">
+              </q-avatar>
+            </q-item-section>
 
-          <q-item-section>
-            <q-item-label class='text-h6'><strong>Taylor swift</strong>
-              <span class="text-grey-7">@vikash2806 <br class="lt-md">&bull;{{tweet.date}}</span>
-            </q-item-label>
-            <q-item-label class='tweet-content'>
-              <span class="text-weight-bold">Janet</span>
-              {{tweet.content}}
-            </q-item-label>
-            <div class="row justify-between q-mt-sm tweet-icon">
-              <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
-              <q-btn flat round color="grey" size="md" icon="fas fa-retweet" />
-              <q-btn flat round color="grey" size="md" icon="far fa-heart" />
-              <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
-            </div>
-          </q-item-section>
-        </q-item>
-      </transition-group>
-    </q-list>
+            <q-item-section>
+              <q-item-label class='text-h6'><strong>Taylor swift</strong>
+                <span class="text-grey-7">@vikash2806 <br class="lt-md">&bull;{{tweet.date}}</span>
+              </q-item-label>
+              <q-item-label class='tweet-content'>
+                <span class="text-weight-bold">Janet</span>
+                {{tweet.content}}
+              </q-item-label>
+              <div class="row justify-between q-mt-sm tweet-icon">
+                <q-btn flat round color="grey" size="md" icon="far fa-comment-alt" />
+                <q-btn flat round color="grey" size="md" icon="fas fa-retweet" />
+                <q-btn flat round color="grey" size="md" icon="far fa-heart" />
+                <q-btn @click='deleteTweet(tweet)' flat round color="grey" size="md" icon="fas fa-trash" />
+              </div>
+            </q-item-section>
+          </q-item>
+        </transition-group>
+      </q-list>
     </q-scroll-area>
   </q-page>
 
@@ -61,22 +61,26 @@
 <script>
   import {
     defineComponent
-  } from 'vue';
+  } from 'vue'
 
+  import {
+    db
+  } from 'src/boot/firebase'
 
   export default defineComponent({
     name: 'PageHome',
     data() {
       return {
         newTweetContent: '',
-        tweets: [{
-            content: "A for apple ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
-            date: 1627204391216,
-          },
-          {
-            content: "B for ball ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
-            date: 1627204419557
-          }
+        tweets: [
+          // {
+          //   content: "A for apple ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
+          //   date: 1627204391216,
+          // },
+          // {
+          //   content: "B for ball ipsum dolor sit, amet consectetur adipisicing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita libero dolor velit et, aliquam sequieligendi.",
+          //   date: 1627204419557
+          // }
         ],
       }
     },
@@ -86,7 +90,14 @@
           content: this.newTweetContent,
           date: Date.now(),
         }
-        this.tweets.unshift(newTweet);
+        // Add a new document with a generated id.
+        db.collection("tweet").add(newTweet).then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+          })
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+          });
+
         this.newTweetContent = ''
       },
       deleteTweet(tweet) {
@@ -95,6 +106,28 @@
         console.log("index", index);
         this.tweets.splice(index, 1);
       }
+    },
+    mounted() {
+      db.collection("tweet").orderBy('date').onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          let tweeetChange = change.doc.data()
+          tweeetChange.id = change.doc.id;
+          if (change.type === "added") {
+            this.tweets.unshift(tweeetChange);
+          }
+          if (change.type === "modified") {
+            console.log("Modified tweet: ", tweeetChange);
+
+          }
+          if (change.type === "removed") {
+            console.log("Removed tweet: ", tweeetChange);
+            let index = this.tweets.findIndex(tweet =>{
+              tweet.id === tweeetChange.id
+            })
+              this.tweets.splice(index, 1);
+          }
+        });
+      });
     }
   })
 
