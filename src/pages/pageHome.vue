@@ -73,26 +73,7 @@
     data() {
       return {
         newTweetContent: '',
-        tweets: [
-          // {
-          //   id: 'GumuruTapparu',
-          //   content: "lrem is a ipsum du ispsun so loremm",
-          //   date:1627292476604,
-          //   liked: true,
-          // },
-          // {
-          //   id: 'GumuruTapparu2',
-          //   content: "lrem is a ipsum du ispsun so loremm",
-          //   date:1627292476404,
-          //   liked: false,
-          // },
-          // {
-          //   id: 'GumuruTapparu3',
-          //   content: "lrem is a ipsum du ispsun so loremm",
-          //   date:1627292476104,
-          //   liked: false,
-          // },
-        ],
+        tweets: [],
       }
     },
     methods: {

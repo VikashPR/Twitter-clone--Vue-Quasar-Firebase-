@@ -27,6 +27,22 @@
           </q-item-section>
           <q-item-section class='text-h5'>About</q-item-section>
         </q-item>
+
+        <!-- Login -->
+        <q-item v-if="isLogin" exact clickable  @click="signOut">
+          <q-item-section avatar>
+            <q-icon name="fas fa-sign-in-alt" size="md" />
+          </q-item-section>
+          <q-item-section class='text-h5'>Logout</q-item-section>
+        </q-item>
+
+        <!-- Logout -->
+        <q-item v-else exact clickable   @click="signIn">
+          <q-item-section avatar>
+            <q-icon name="fas fa-user" size="md" />
+          </q-item-section>
+          <q-item-section class='text-h5'>Login</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
     <!-- !right drawer -->
@@ -81,11 +97,14 @@
   import {
     ref
   } from 'vue'
+import { useAuth } from 'src/boot/firebase'
+
 
   export default {
     setup() {
       const leftDrawerOpen = ref(false)
       const rightDrawerOpen = ref(false)
+      const { user, isLogin, signOut, signIn } = useAuth()
 
       return {
         leftDrawerOpen,
@@ -96,7 +115,8 @@
         rightDrawerOpen,
         toggleRightDrawer() {
           rightDrawerOpen.value = !rightDrawerOpen.value
-        }
+        },
+        user, isLogin, signOut, signIn,
       }
     }
   }
